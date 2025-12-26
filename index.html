@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Free Fire Tournament</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>🔥 Free Fire Tournament</h1>
+  <button id="registerBtn">Register</button>
+</header>
+
+<section class="hero">
+  <h2>Play • Compete • Win</h2>
+  <p>Official Online Tournament</p>
+</section>
+
+<section class="matches">
+  <h2>🔥 Upcoming Matches</h2>
+  <section class="results">
+  <h2>🏆 Match Results</h2>
+  <div id="resultList">
+    <p>Loading results...</p>
+  </div>
+</section>
+
+  <div id="matchList">
+    <p>Loading matches...</p>
+  </div>
+</section>
+
+<!-- Registration Form -->
+<div class="popup" id="popup">
+  <div class="form">
+    <h3>Register Now</h3>
+    <input id="player" placeholder="Player Name">
+    <input id="team" placeholder="Team Name">
+    <input id="email" placeholder="Email">
+    <button onclick="submitForm()">Submit</button>
+    <span onclick="closeForm()">❌</span>
+  </div>
+</div>
+
+<!-- 🔥 Firebase SDK FIRST -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<!-- 🔥 Firebase Config -->
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBeUxlsFXUw6n003QX44Ef4XtLRFHLWB0A",
+    authDomain: "ff-tournament-2c57f.firebaseapp.com",
+    databaseURL: "https://ff-tournament-2c57f-default-rtdb.firebaseio.com",
+    projectId: "ff-tournament-2c57f",
+    storageBucket: "ff-tournament-2c57f.firebasestorage.app",
+    messagingSenderId: "703502061884",
+    appId: "1:703502061884:web:43b0cbb245ad58db2fce39"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+
+  // 🔥 MAKE DATABASE GLOBAL
+  window.database = firebase.database();
+</script>
+
+<!-- 🔥 YOUR JS LAST -->
+<script src="script.js"></script>
+
+</body>
+</html>

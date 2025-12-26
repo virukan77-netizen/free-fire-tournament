@@ -1,0 +1,49 @@
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0b001a;
+  color: white;
+  text-align: center;
+}
+
+header {
+  padding: 20px;
+  background: black;
+}
+
+button {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.hero {
+  padding: 80px 20px;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+}
+
+.form {
+  background: #12002a;
+  padding: 30px;
+  width: 300px;
+  margin: 100px auto;
+}
+.matches {
+  padding: 40px 20px;
+}
+
+.match-card {
+  border: 1px solid #555;
+  padding: 15px;
+  margin: 15px auto;
+  max-width: 400px;
+  background: #12002a;
+}
+.results {
+  padding: 40px 20px;
+}

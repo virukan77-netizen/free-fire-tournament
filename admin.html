@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial;
+      background: #0b001a;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    input, button {
+      padding: 8px;
+      margin: 5px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #444;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background: #ff00ff;
+    }
+  </style>
+</head>
+<body>
+
+<!-- 🔒 ADMIN PASSWORD -->
+<script>
+  const ADMIN_PASSWORD = "admin123";
+
+  const userInput = prompt("Enter Admin Password:");
+  if (userInput !== ADMIN_PASSWORD) {
+    alert("Access Denied!");
+    window.location.href = "index.html";
+  }
+</script>
+
+<h1>🔥 Admin Panel</h1>
+
+<!-- ================= ADD MATCH ================= -->
+<h2>Add New Match</h2>
+<input id="matchTeam1" placeholder="Team 1">
+<input id="matchTeam2" placeholder="Team 2">
+<input id="matchDate" type="date">
+<input id="matchTime" type="time">
+<button onclick="addMatch()">Add Match</button>
+
+<hr>
+
+<!-- ================= REGISTERED PLAYERS ================= -->
+<h2>📋 Registered Players</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Player Name</th>
+      <th>Team Name</th>
+      <th>Email</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+  <tbody id="playersList">
+    <tr>
+      <td colspan="4">Loading registrations...</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<!-- ================= ADD MATCH RESULT (STEP 3.1) ================= -->
+<h2>🏆 Add Match Result</h2>
+
+<input id="resultTeam1" placeholder="Team 1">
+<input id="resultTeam2" placeholder="Team 2">
+<input id="resultWinner" placeholder="Winner Team">
+<button onclick="addResult()">Add Result</button>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+  // 🔥 Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyBeUxlsFXUw6n003QX44Ef4XtLRFHLWB0A",
+    authDomain: "ff-tournament-2c57f.firebaseapp.com",
+    databaseURL: "https://ff-tournament-2c57f-default-rtdb.firebaseio.com",
+    projectId: "ff-tournament-2c57f",
+    storageBucket: "ff-tournament-2c57f.firebasestorage.app",
+    messagingSenderId: "703502061884",
+    appId: "1:703502061884:web:43b0cbb245ad58db2fce39"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+
+  // ================= ADD MATCH =================
+  function addMatch() {
+    const team1 = matchTeam1.value;
+    const team2 = matchTeam2.value;
+    const date = matchDate.value;
+    const time = matchTime.value;
+
+    if (!team1 || !team2 || !date || !time) {
+      alert("Fill all details");
+      return;
+    }
+
+    database.ref("matches").push({ team1, team2, date, time });
+    alert("✅ Match added!");
+  }
+
+  // ================= SHOW REGISTERED PLAYERS =================
+  const playersList = document.getElementById("playersList");
+
+  database.ref("registrations").on("value", (snapshot) => {
+    playersList.innerHTML = "";
+
+    if (!snapshot.exists()) {
+      playersList.innerHTML = `
+        <tr>
+          <td colspan="4">No registrations yet</td>
+        </tr>
+      `;
+      return;
+    }
+
+    snapshot.forEach((child) => {
+      const p = child.val();
+
+      playersList.innerHTML += `
+        <tr>
+          <td>${p.playerName}</td>
+          <td>${p.teamName}</td>
+          <td>${p.email}</td>
+          <td>${p.time}</td>
+        </tr>
+      `;
+    });
+  });
+
+  // ================= ADD RESULT (STEP 3.2) =================
+  function addResult() {
+    const team1 = resultTeam1.value;
+    const team2 = resultTeam2.value;
+    const winner = resultWinner.value;
+
+    if (!team1 || !team2 || !winner) {
+      alert("Fill all result fields");
+      return;
+    }
+
+    database.ref("results").push({ team1, team2, winner });
+    alert("✅ Result added!");
+  }
+</script>
+
+</body>
+</html>
